@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="off" monitorInterval="1800">
+	<!-- 配置log4j输出到文件的路径 -->
+	<properties>
+		<property name="LOG_HOME">../log/YaoJianJu</property>
+	</properties>
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</Console>
+
+		<!-- Debug日志记录 -->
+		<File name="DebugFile" fileName="${LOG_HOME}/debug.log" append="true">
+			<!--文件只记录level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch） -->
+			<ThresholdFilter level="debug" onMatch="ACCEPT"
+				onMismatch="DENY" />
+			<PatternLayout charset="UTF-8"
+				pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n" />
+		</File>
+
+		<!-- info日志记录 -->
+		<File name="InfoFile" fileName="${LOG_HOME}/info.log" append="true">
+			<!--文件只记录level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch） -->
+			<ThresholdFilter level="info" onMatch="ACCEPT"
+				onMismatch="DENY" />
+			<PatternLayout charset="UTF-8"
+				pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n" />
+		</File>
+
+		<!-- error日志记录 -->
+		<File name="ErrorFile" fileName="${LOG_HOME}/error.log" append="true">
+			<!--文件只记录level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch） -->
+			<ThresholdFilter level="error" onMatch="ACCEPT"
+				onMismatch="DENY" />
+			<PatternLayout charset="UTF-8"
+				pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n" />
+		</File>
+
+	</Appenders>
+
+	<Loggers>
+		<logger name="com.nilin.meteor.mapper" level="debug" additivity="false">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="ErrorFile" />
+			<AppenderRef ref="InfoFile" />
+			<AppenderRef ref="DebugFile" />
+		</logger>
+		<!--过滤掉spring和mybatis的一些无用的DEBUG信息-->
+		<logger name="org.springframework" level="INFO"></logger>
+		<logger name="org.mybatis" level="INFO"></logger>
+		<logger name="com.baomidou" level="INFO"></logger>
+		<logger name="org.apache" level="INFO"></logger>
+		<logger name="org.mongodb" level="INFO"></logger>
+		<Root level="debug">
+			<appender-ref ref="Console" />
+			<appender-ref ref="ErrorFile" />
+			<appender-ref ref="InfoFile" />
+			<appender-ref ref="DebugFile" />
+		</Root>
+		
+	</Loggers>
+</Configuration>
